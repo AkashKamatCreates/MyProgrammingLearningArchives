@@ -1,0 +1,8 @@
+collection framework is a group of classes and interfaces by which we can group multiple objects into a single entity. 
+for example: arraylist etc.
+
+why need for collection framework?
+classical array stores only limited no of objects and all objects should have same datatype. by using collection framework, we can use objecet array which has no fixed size and we can use different for objects.
+collection framework provides readymade methods to make datastructures. they are the most optimized datastructures which reduce complexities. 
+using collections save coder's typing and increases efficiency of the code. 
+
