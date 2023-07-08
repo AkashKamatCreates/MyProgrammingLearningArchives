@@ -18,5 +18,7 @@ public class Main {
         ArrayList<Integer> akash = new ArrayList<Integer>(10); //this will act as a normal array  with 10 size
         ArrayList<Integer> akash = new ArrayList<Integer>(n);  //this will act as normal array with size n
 
+        // watch for more:         https://www.youtube.com/watch?v=liFyhzZl9uw
+
     }
 }
