@@ -5,7 +5,7 @@ public class Main {
       
         int n = 10; //size of array
         int[] arrname = new int[n];
-        System.out.println(arrname);
+        System.out.println(Arrays.toString(arrname));
 
     }
 }
