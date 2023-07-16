@@ -47,10 +47,6 @@ user defined packages: made by the user
 public: can be accessed by anyone from this or other package
 default(no access modifier specified): can be accessed only by the same package and the package imported into the default declared code. 
 
-Access Modifier | within class | within package | outside package by subclass only | outside package 
-public          |      y       |       y        |                y                 |        y                
-protected       |      y       |       y        |                y                 |        n                 
-default         |      y       |       y        |                n                 |        n               
-protected       |      y       |       n        |                n                 |        n              
+![image](https://github.com/AkashKamatCreates/MyProgrammingLearningArchives/assets/100783004/9fe5c77a-726c-4d25-a7f3-2c42d96c900d)
 
 
