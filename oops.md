@@ -26,7 +26,6 @@ Function overloading == compiletime polymorphism == polymorphism in general
 
 
 ## Inheritance
-
 when a class can use properties, or methods or functions from other class, this is known as inheritance. 
 inheritance is of 4 types: 
 1. Single level inheritance (derived class inherits from base class) 
@@ -37,7 +36,6 @@ inheritance is of 4 types:
 
 
 ## Packages:
-
 package is similar type of codes, methods, functions grouped together for easy readabliity and understanding of code by other coders on the same project. 
 in any project, a package can be a project or a different java file. to import package, use import on top of the working code. 
 
@@ -46,21 +44,13 @@ user defined packages: made by the user
 
 
 ## Access Modifier:
-
 public: can be accessed by anyone from this or other package
 default(no access modifier specified): can be accessed only by the same package and the package imported into the default declared code. 
 
-\begin{table}[]
-\begin{tabular}{lllll}
-Access Modifier & within class & within package & outside package by subclass only & outside package \\
-public          & y            & y              & y                                & y               \\
-protected       & y            & y              & y                                & n               \\
-default         & y            & y              & n                                & n               \\
-protected       & y            & n              & n                                & n              
-\end{tabular}
-\end{table}
-
-
-
+Access Modifier | within class | within package | outside package by subclass only | outside package 
+public          |      y       |       y        |                y                 |        y                
+protected       |      y       |       y        |                y                 |        n                 
+default         |      y       |       y        |                n                 |        n               
+protected       |      y       |       n        |                n                 |        n              
 
 
