@@ -49,4 +49,15 @@ default(no access modifier specified): can be accessed only by the same package 
 
 ![image](https://github.com/AkashKamatCreates/MyProgrammingLearningArchives/assets/100783004/9fe5c77a-726c-4d25-a7f3-2c42d96c900d)
 
+private can be accessed by other function using getters and setters. 
+
+
+## Encapsulation: 
+data and their funciton are combined into a single entity
+data hiding can be used to hide data or show data to and from the right person using access modifiers. 
+
+## Abstraction: 
+hiding code implementation and behind the scenes working from user and only showing user concerned data is called Abstraction. (hiding complexity form users to avoid complexity)
+abstract class is just an empty template. the working classes of a code extends the abstract class to use methods from the abstract class. abstract class will never be directly touched by the user, since it is empty with just function blueprint. 
+
 
