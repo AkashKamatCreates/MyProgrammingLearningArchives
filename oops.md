@@ -36,4 +36,39 @@ inheritance is of 4 types:
 5. Multiple inheritance in cpp (in java, multiple inheritance of classes is not provided. Interfaces in java is used to implement multiple inheritance)
 
 
+## Packages:
+
+package is similar type of codes, methods, functions grouped together for easy readabliity and understanding of code by other coders on the same project. 
+in any project, a package can be a project or a different java file. to import package, use import on top of the working code. 
+
+2 types: built-in packages: which comes in built with the programming language
+user defined packages: made by the user
+
+
+## Access Modifier:
+
+public: can be accessed by anyone from this or other package
+default(no access modifier specified): can be accessed only by the same package and the package imported into the default declared code. 
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[]
+\begin{tabular}{lllll}
+\rowcolor[HTML]{F8FF00} 
+Access Modifier                   & within class              & within package            & outside package by subclass only & outside package           \\
+\rowcolor[HTML]{67FD9A} 
+\cellcolor[HTML]{34CDF9}public    & y                         & y                         & y                                & y                         \\
+\rowcolor[HTML]{67FD9A} 
+\cellcolor[HTML]{34CDF9}protected & y                         & y                         & y                                & \cellcolor[HTML]{FD6864}n \\
+\cellcolor[HTML]{34CDF9}default   & \cellcolor[HTML]{67FD9A}y & \cellcolor[HTML]{67FD9A}y & \cellcolor[HTML]{FD6864}n        & \cellcolor[HTML]{FD6864}n \\
+\rowcolor[HTML]{FD6864} 
+\cellcolor[HTML]{34CDF9}protected & \cellcolor[HTML]{67FD9A}y & n                         & n                                & n                        
+\end{tabular}
+\end{table}
+
+
+
+
+
 
