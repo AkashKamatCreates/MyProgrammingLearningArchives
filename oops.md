@@ -50,23 +50,15 @@ user defined packages: made by the user
 public: can be accessed by anyone from this or other package
 default(no access modifier specified): can be accessed only by the same package and the package imported into the default declared code. 
 
-% Please add the following required packages to your document preamble:
-% \usepackage[table,xcdraw]{xcolor}
-% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[]
 \begin{tabular}{lllll}
-\rowcolor[HTML]{F8FF00} 
-Access Modifier                   & within class              & within package            & outside package by subclass only & outside package           \\
-\rowcolor[HTML]{67FD9A} 
-\cellcolor[HTML]{34CDF9}public    & y                         & y                         & y                                & y                         \\
-\rowcolor[HTML]{67FD9A} 
-\cellcolor[HTML]{34CDF9}protected & y                         & y                         & y                                & \cellcolor[HTML]{FD6864}n \\
-\cellcolor[HTML]{34CDF9}default   & \cellcolor[HTML]{67FD9A}y & \cellcolor[HTML]{67FD9A}y & \cellcolor[HTML]{FD6864}n        & \cellcolor[HTML]{FD6864}n \\
-\rowcolor[HTML]{FD6864} 
-\cellcolor[HTML]{34CDF9}protected & \cellcolor[HTML]{67FD9A}y & n                         & n                                & n                        
+Access Modifier & within class & within package & outside package by subclass only & outside package \\
+public          & y            & y              & y                                & y               \\
+protected       & y            & y              & y                                & n               \\
+default         & y            & y              & n                                & n               \\
+protected       & y            & n              & n                                & n              
 \end{tabular}
 \end{table}
-
 
 
 
