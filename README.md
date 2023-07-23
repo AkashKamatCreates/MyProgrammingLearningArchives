@@ -32,6 +32,6 @@ Thanks for Visiting my Repository!
 - [ ] java desktop application project
 - [ ] logical reasoning questions from indiabix
 - [ ] cpp 1 hour video
-- [ ] sql one shot video
-- [ ] computer networks one shot revision video
-- [ ] operating systems one shot revision video
+- [ ] sql interview questions
+- [ ] computer networks one shot revision video / interview questions
+- [ ] operating systems one shot revision video / interview questions
