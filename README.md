@@ -6,7 +6,7 @@
 
 Thanks for Visiting my Repository!
 
-- [ ] hashset and hashmap
+- [x] hashset and hashmap
 - [ ] all searching and sorting algorithms
 	- [x] linear and binary search
 	- [x] bubble sort
