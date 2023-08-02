@@ -30,13 +30,15 @@ public class linkedlist {
         System.out.println(list.size());
 
         //iterating through the list
-        //Searching for an element in linkedlist
         for (int i = 0; i < list.size(); i++) {
             System.out.println(list.get(i));
-            if(list.contains("kamat")){
-                System.out.println("yes");
-            }
         }
+
+        //Searching for an element in linkedlist
+        if(list.contains("kamat")){
+                System.out.println("yes");
+        }
+        
         //removing from the linkedlist 
         System.out.println(list);
         list.removeFirst(); //removes first element of the list
