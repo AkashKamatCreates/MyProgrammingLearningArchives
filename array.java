@@ -14,6 +14,7 @@ public class Main {
         System.out.println(Arrays.toString(arrname));
 
         //by default int array stores 0 in all elements memory space, string stores empty string " ", float stores 0.0, boolean stores false and so on. 
+        //array elements are stored in contigious manner in the memory (one after the other).
         
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         
