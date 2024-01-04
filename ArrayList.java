@@ -11,14 +11,9 @@ public class Main {
 
         System.out.println(akash);
 
-      
-
         //using arraylist as normal array: specify the size of the arraylist in the brackets...
 
         ArrayList<Integer> akash = new ArrayList<Integer>(10); //this will act as a normal array  with 10 size
         ArrayList<Integer> akash = new ArrayList<Integer>(n);  //this will act as normal array with size n
-
-        // watch for more:         https://www.youtube.com/watch?v=liFyhzZl9uw
-
     }
 }
