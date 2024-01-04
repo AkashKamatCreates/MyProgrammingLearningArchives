@@ -48,6 +48,7 @@ public: can be accessed by anyone from this or other package
 default(no access modifier specified): can be accessed only by the same package and the package imported into the default declared code. 
 
 ![image](https://github.com/AkashKamatCreates/MyProgrammingLearningArchives/assets/100783004/9fe5c77a-726c-4d25-a7f3-2c42d96c900d)
+//source of image: https://www.javatpoint.com/access-modifiers
 
 private can be accessed by other function using getters and setters. 
 
