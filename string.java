@@ -1,16 +1,20 @@
 import java.util.*;
 public class string {
     public static void main(String[] args) {
+
+        
         //declaration of string
         String name = "akash";
         String fullname = "akash kamat"; //space is a valid character in a string.
 
+        
         //taking string input from user
         /*
          * Scanner in = new Scanner(System.in);
            String nam = in.nextLine();
            System.out.println("your name is "+name);
          */
+
         
         //concatenation: joining two strings. 
         String firstname = "akash";
@@ -18,14 +22,17 @@ public class string {
         String fullnname = firstname+" "+lastname;
         System.out.println(fullnname);
 
+        
         //length of string
         System.out.println(fullname.length());
 
+        
         //charAt and iterating through String
         for (int i = 0; i < fullname.length(); i++) {
             System.out.println(fullname.charAt(i));
         }
 
+        
         //comparing two strings
         String s1 = "thisisstring";
         String s2 = "thisisstring";
@@ -38,6 +45,7 @@ public class string {
             System.out.println("yes, s1 and s2 are same");
         }
         // == can work but in many test cases in the questions, s1==s2 may not work which is why content.Equals and .equals should be used. 
+
         
         //substrings: 
         String sen = "hello, this is akash kamat!";
@@ -54,6 +62,7 @@ public class string {
          * this causes very bad efficiency for strings which stringbuilder solves by converting the h into hi without adding or deleting anything from the memory. 
          */
 
+        
         //StringBuilder declaration
         StringBuilder sb = new StringBuilder("aa");
         System.out.println(sb);
