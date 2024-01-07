@@ -2,6 +2,6 @@
 
 - branch:
 - fork: 
-- internal working of pull request:
+- internal working of pull request: 
 - origin:
 - open source projects: 
