@@ -3,7 +3,7 @@ public class string {
     public static void main(String[] args) {
 
         
-        //declaration of string
+        //Declaration of string
         String name = "akash";
         String fullname = "akash kamat"; //space is a valid character in a string.
 
