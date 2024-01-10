@@ -3,7 +3,7 @@ import java.util.*;
 public class hash {
     public static void main(String[] args) {
         System.out.println("-----HASHSET-----");
-        //creating
+        //Create
         HashSet<Integer> set = new HashSet<>();
 
         //insert
