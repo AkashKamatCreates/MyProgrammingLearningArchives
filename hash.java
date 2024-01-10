@@ -6,7 +6,7 @@ public class hash {
         //Create
         HashSet<Integer> set = new HashSet<>();
 
-        //insert
+        //Insert
         set.add(1);
         set.add(2);
         set.add(2);
