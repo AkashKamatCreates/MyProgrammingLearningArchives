@@ -104,8 +104,12 @@ public class string {
         String temp = "1234";
         String temp2 = "2";
         System.out.println("sum of two strings is: "+ (Integer.parseInt(temp)+Integer.parseInt(temp2))); //output: 1236
-    
 
+        /**
+        (int) str[i] gives the ASCII value of the ith string character 
+        ((int) str[i] – 32) gives the ASCII value of the Capitalized ith string character 
+        (char)((int) str[i] – 32) converts the ASCII value to its corresponding character
+        In Java , the StringBuffer class is used to create mutable (modifiable) strings. */
 
         
     }
