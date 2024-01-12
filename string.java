@@ -99,5 +99,14 @@ public class string {
         StringBuilder sa = new StringBuilder("I am practicing Strings!!! :)");
         sa.delete(8, 16); //(start index, end index) to be deleted.
         System.out.println(sa);
+
+        //string function: 
+        String temp = "1234";
+        String temp2 = "2";
+        System.out.println("sum of two strings is: "+ (Integer.parseInt(temp)+Integer.parseInt(temp2))); //output: 1236
+    
+
+
+        
     }
 }
