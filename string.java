@@ -111,6 +111,10 @@ public class string {
         (char)((int) str[i] – 32) converts the ASCII value to its corresponding character
         In Java , the StringBuffer class is used to create mutable (modifiable) strings. */
 
-        
+        /**
+        ASCII CODES: 
+        - CAPITAL A-Z: 65-90
+        - lowercase a-z: 97-122
+        */
     }
 }
