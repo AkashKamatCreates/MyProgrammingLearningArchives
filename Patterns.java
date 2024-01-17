@@ -23,6 +23,7 @@ public class pattern {
         p21(5);
     }
 
+    
     public static void p1(int n){
         System.out.println("Pattern 1: ");
         for(int i=0; i<n; i++){
