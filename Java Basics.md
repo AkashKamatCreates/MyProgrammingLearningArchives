@@ -10,3 +10,4 @@ class variable and instance variable
 # java notes:
 - string pool: where all strings variable are referred towards actual string storage (heap).
 - if 2 reference are declared with the same string, the stringpool will contain the same string with both of the references pointing to it. 
+- packages can be considered as folders which can be recognised by jdk
