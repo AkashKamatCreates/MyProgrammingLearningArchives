@@ -11,3 +11,8 @@ class variable and instance variable
 - string pool: where all strings variable are referred towards actual string storage (heap).
 - if 2 reference are declared with the same string, the stringpool will contain the same string with both of the references pointing to it. 
 - packages can be considered as folders which can be recognised by jdk
+- wrapper class: the class which extends the primitive type.
+  - forexample, int is a primitive type, and Integer is a wrapper class that wraps int value into an object.
+  - boxing: int a = 12; Integer b = a; here i called a primitive type to a wrapper class. this is called boxing.
+  - in java compilation, the above boxing is automatically converting int variable into an object. this is called autoboxing.
+-  
