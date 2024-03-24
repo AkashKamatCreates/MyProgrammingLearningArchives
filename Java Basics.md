@@ -16,4 +16,4 @@ class variable and instance variable
   - boxing: int a = 12; Integer b = a; here i called a primitive type to a wrapper class. this is called boxing.
   - in java compilation, the above boxing is automatically converting int variable into an object. this is called autoboxing.
 - transient keyword in Java: when you wish to send data over the internet and want to skip a variable, use transient for skipping it. 
-- java garbage collector: deletes unused memory from heap, thus saving space and preventing memory leaks. 
+- java garbage collector: deletes unused memory from heap, thus saving space and preventing memory leaks. garbage collection is managed by JVM
