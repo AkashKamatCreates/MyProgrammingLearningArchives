@@ -75,6 +75,20 @@ public class hash {
             System.out.println("key: "+val.getKey() +", value: "+val.getValue());
         }
 
+        //Maintaining a FREQUENCY hashmap with element:frequency format:
+        //method 1:
+        for (int i = 0; i < N; i++) {
+            if (!map.containsKey(A1[i]))
+                map.put(A1[i], 1);
+            else
+                map.put(A1[i], map.get(A1[i]) + 1);
+        }
+        //Method 2: using getOrDefault:
+        for (int i = 0; i < N; i++) {
+            map.put(A1[i], map.getOrDefault(A1[i], 0) + 1);
+            //map.getOrDefault(key, default value) +1 for ++ increment.
+        }
+
         //iterating Set view of keys of hashmap.
         Set<Integer> keys = map.keySet();
         for(Integer key:keys){
