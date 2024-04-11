@@ -116,5 +116,9 @@ public class string {
         - CAPITAL A-Z: 65-90
         - lowercase a-z: 97-122
         */
+
+        //to split a complete String into an array of words:
+        String[] words = str.split("\\s+"); // Split string into words based on whitespace
+
     }
 }
