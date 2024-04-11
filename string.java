@@ -119,6 +119,21 @@ public class string {
 
         //to split a complete String into an array of words:
         String[] words = str.split("\\s+"); // Split string into words based on whitespace
-
+        //to Find Position of a Substring within a String
+        /* Example 1:
+        Input: str1 = "takeuforward"
+        str2 = “forward”
+        Output: 5
+        Explanation: "Forward" is present in the 5th index in "takeuforward"
+        Example 2:
+        Input: str1 = “hello”
+        str2 = “az”
+        Output: -1
+        Explanation: "az" is not a substring of "hello"*/
+        String text = "takeuforward";
+        String pattern = "forward";
+        int foundIdx = text.indexOf(pattern);
+        System.out.println("The substring starts from the index: "+foundIdx);
+        
     }
 }
