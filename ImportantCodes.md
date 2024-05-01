@@ -35,7 +35,7 @@ public class Recursion6 {
 ```
 
 ## sum of subsequence using recursion: 
-```
+```java
 package org.example;
 
 import java.util.ArrayList;
