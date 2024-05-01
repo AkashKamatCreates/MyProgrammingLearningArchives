@@ -33,3 +33,46 @@ public class Recursion6 {
 }
 
 ```
+
+## sum of subsequence using recursion: 
+```
+package org.example;
+
+import java.util.ArrayList;
+
+public class recursion7 {
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 1};
+        int n = 3;
+        int s = 2;
+        ArrayList<Integer> list = new ArrayList<>();
+
+
+        subsequencesum(0, list, 0, s, arr, n);
+
+    }
+
+    static void subsequencesum(int i, ArrayList<Integer> list, int s, int sum, int[] arr, int n){
+        if(i==n){
+            if(s==sum){
+                for(Integer x:list){
+                    System.out.print(x+" ");
+                }
+                System.out.println();
+            }
+            return;
+        }
+
+        list.add(arr[i]);
+        s+=arr[i];
+        subsequencesum(i+1, list, s, sum, arr, n);
+
+        list.remove(list.size()-1);
+        s-=arr[i];
+        subsequencesum(i+1, list, s, sum, arr, n);
+
+    }
+}
+
+```
+
