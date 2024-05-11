@@ -23,7 +23,6 @@ public class linkedlist {
         list.add("this is added at the last");
         list.addLast("last addition using addLast");
 
-        /**Dev notes!!! */
         //printing the linked list
         System.out.println(list);
 
