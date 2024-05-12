@@ -47,5 +47,7 @@ public class linkedlist {
         System.out.println(list);
         list.remove(3); //removes element on the index. 
         System.out.println(list);
+
+        
     }
 }
