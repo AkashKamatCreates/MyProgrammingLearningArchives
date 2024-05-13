@@ -1,6 +1,7 @@
 package org.example;
 import java.util.*;
 
+//singly linked list:
 class listnode {
     int value;
     listnode next;
@@ -9,6 +10,20 @@ class listnode {
         next=null;
     }
 }
+
+//doubly linked list:
+class doublylistnode {
+    int value;
+    doublylistnode next;
+    doublylistnode prev;
+    doublylistnode (int x){
+        value = x;
+        next=null;
+        prev=null;
+    }
+}
+
+//circular linked list: same as singly or doubly linked list with last.next to head
 
 
 public class LinkedList1 {
@@ -33,7 +48,7 @@ public class LinkedList1 {
         System.out.println(list);
 
         //Doubly linked list non-primitive way:
-        LinkedList<Integer> doublyLinkedList = new LinkedList<>();
+        List<Integer> doublyLinkedList = new LinkedList<>();
         doublyLinkedList.add(1);
         doublyLinkedList.add(2);
         doublyLinkedList.add(3);
