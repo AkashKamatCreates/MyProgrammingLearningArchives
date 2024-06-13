@@ -1,3 +1,128 @@
+``` java
+package org.example;
+
+public class oops {
+    public static void main(String[] args){
+        Car bmw = new Car(6, "M5 Coup");
+//        System.out.println(bmw.carName);
+//        String name = "hello";
+//        name = "world";
+//        System.out.println(name);
+//
+//        bmw.drive();
+//        bmw.stop();
+
+        SUV bigcar = new SUV("newsuvcar", 30, 4);
+        bmw.offroading();
+        bigcar.offroading();
+
+        PrivateInfo person1 = new PrivateInfo("john", "AZ", 1123484732);
+        person1.getAddress();
+        person1.getName();
+        person1.getPhone();
+        person1.setName("doe");
+        person1.getName();
+    }
+}
+
+abstract class ab{
+    abstract void abmethod();
+
+//    public abstract void me();
+
+    int a = 12;
+    public ab(){}
+    public  ab(int a){
+        this.a = a;
+    }
+}
+class concrete extends ab implements animal{
+    public void sleep(){
+        System.out.println("sleeping");
+    }
+    public void eat(){
+        System.out.println("eating");
+    }
+    public void abmethod(){
+        System.out.println("hi from concrete...");
+    }
+}
+interface animal{
+    void sleep();
+    void eat();
+
+    default void sound(){
+        System.out.println("animal sounds");
+    }
+//    void sound();
+}
+
+class PrivateInfo{
+    private String name;
+    public void setName(String name){
+        this.name = name;
+    }
+    public void getName(){
+        System.out.println(name);
+    }
+    private String address;
+
+    public void getAddress(){
+        System.out.println(address);
+    }
+    public void setAddress(String add){
+        this.address = add;
+    }
+    private int phone;
+
+
+    public void getPhone(){
+        System.out.println(phone);
+    }
+    public void setPhone(int phone){
+        this.phone = phone;
+    }
+
+    public PrivateInfo(String name, String address, int phone){
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+    }
+    public PrivateInfo(){}
+
+}
+class Car{
+    int mileage;
+    String carName;
+    public Car(){
+    }
+    public void offroading(){
+        System.out.println("sedans donot have good offroading!");
+    }
+    public Car(int mileage, String carName){
+        this.mileage = mileage;
+        this.carName = carName;
+    }
+    public void drive(){
+        System.out.println("driving");
+    }
+    public void stop(){
+        System.out.println("break!!");
+    }
+}
+class SUV extends Car{
+    int groundclearance;
+    public SUV(String carName, int groundclearance, int mileage){
+        super(mileage, carName);
+        this.groundclearance = groundclearance;
+    }
+    @Override
+    public void offroading(){
+        System.out.println("car has good offroading");
+    }
+}
+```
+
 ## Class and Object
 class is a blueprint
 object is the 'object' made out of the blueprint (which is class here)
