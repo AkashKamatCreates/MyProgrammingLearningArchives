@@ -1,8 +1,15 @@
-collection framework is a group of classes and interfaces by which we can group multiple objects into a single entity. 
-for example: arraylist etc.
-
-why need for collection framework?
-classical array stores only limited no of objects and all objects should have same datatype. by using collection framework, we can use objecet array which has no fixed size and we can use different for objects.
-collection framework provides readymade methods to make datastructures. they are the most optimized datastructures which reduce complexities. 
-using collections save coder's typing and increases efficiency of the code. 
-
+- collection (aka container) is an object that groups multiple elements into a single unit. 
+- collections are used to store, retrieve, manipulate and communicate aggregate data. 
+- collections framework: unified architecture for representing and manipulating collections. 
+- CF contains the following:
+	- interfaces: abstract data types that represent collections. 
+	- implementations: Concrete implementations of the collection interfaces. (aka reusable data structures)
+	- algorithms: computations like searching and sorting on objects are done by these algorithms/methods. the algorithms are polymorphic, meaning same name different functionalities. 
+- Pros of java CF
+	- reduces programming effort
+	- increases program speed and quality
+	- allows interoperability among unrelated APIs
+	- Reduces effort to learn and to use new APIs
+	- Reduces effort to design new APIs
+	- fosters software reuse
+- 
