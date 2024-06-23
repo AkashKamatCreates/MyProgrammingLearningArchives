@@ -1,3 +1,4 @@
+# Collections Framework
 - collection (aka container) is an object that groups multiple elements into a single unit. 
 - collections are used to store, retrieve, manipulate and communicate aggregate data. 
 - collections framework: unified architecture for representing and manipulating collections. 
@@ -12,4 +13,23 @@
 	- Reduces effort to learn and to use new APIs
 	- Reduces effort to design new APIs
 	- fosters software reuse
-- 
+- iterable
+	- collections
+		- list
+			- vector
+			- arraylist
+			- linkedlist
+		- queue
+			- deque
+				- linkedlist
+				- arraydeque
+			- priority queue
+		- set
+			- sortedset
+				- navigableset
+					- treeset
+			- hashset
+				- linkedhashset
+		- iterator 
+			- listiterator
+				- list
