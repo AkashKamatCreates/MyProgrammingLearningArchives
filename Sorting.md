@@ -1,8 +1,6 @@
 # MergeSort Code
 
-'''
-package org.example;
-
+```
 import java.util.*;
 
 public class mergesort {
@@ -40,5 +38,4 @@ public class mergesort {
         merge(arr, low, mid, high);
     }
 }
-
-'''
+```
