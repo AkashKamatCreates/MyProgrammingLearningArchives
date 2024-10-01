@@ -33,4 +33,23 @@
 	- Make sure that `E:` is a valid drive, and you should also include the correct folder paths if you're specifying a location within a directory on that drive, for example, `E:\somefolder`.
 - **in a java file, if you want to include package statement, make sure its the very first line. only after that import is allowed. if you write import statements and then package, compiler will give error**
 - **good order of a java file: package statement (at most one) -> import statements (any number of statements) -> class/interface/enum(any number of statements)**
-- 
+## Class Level Modifiers: public and default
+- public modifier: if a class is public, we can access it from anywhere within, outside package, literally anywhere. 
+- Default modifier: if class is default (no public keyword written) it is accessible within the same package. 
+- abstract modifier: if the class is abstract, object creation is not possible. object creation is also called instantiation. class instantiation of an abstract class is not possible 
+- final modifier: if the class is final, child class creation is not possible.
+- for top level (outer) classes, which modifiers are applicable? 
+	- public
+	- default
+	- abstract
+	- final 
+	- strictfp (not important)
+- for inner classes:
+	- all outer class modifiers: public, default, abstract, final, strictfp
+	- private
+	- protected
+	- static
+- when you want to use public class A into class B, you have to import it into B.java. import com.package.A; throughout the project, the public class is accessible, you just have to import it properly. 
+- if class is not declared by any modifier, default modifier works. but outside the package, the class is not accessible because the import statement wont be able to find the class since it is of default modifier. 
+- when you want to use default class, you  dont need any import statement since if its present in the same package, you can directly call it. also if its outside package, you wont be able to use it.
+## Abstract Method
