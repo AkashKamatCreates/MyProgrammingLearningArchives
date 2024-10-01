@@ -51,5 +51,25 @@
 	- static
 - when you want to use public class A into class B, you have to import it into B.java. import com.package.A; throughout the project, the public class is accessible, you just have to import it properly. 
 - if class is not declared by any modifier, default modifier works. but outside the package, the class is not accessible because the import statement wont be able to find the class since it is of default modifier. 
-- when you want to use default class, you  dont need any import statement since if its present in the same package, you can directly call it. also if its outside package, you wont be able to use it.
+- when you want to use default class, you  don't need any import statement since if its present in the same package, you can directly call it. also if its outside package, you wont be able to use it.
 ## Abstract Method
+- abstract modifiers are applicable for methods, class. there is no abstract variable. 
+- abstract means not complete or partial or not clear. 
+- only abstract classes can have abstract methods. you cannot write abstract methods in public or default or other modifiers class. 
+- what is abstract method: method which has no implementation, it only has declaration. child classes are responsible to provide implementation. 
+- rule to declare abstract method: 
+	- abstract methods cannot have body. in java, body or implementation means adding curly braces after brackets. eg: abstract int getdetails(){};. here the curly braces are wrong. correct is "abstract int getdetails();"
+	- if you didnt give curly braces to a normal method, compulsory you have to declare the method as abstract. but if you dont declare abstract, you have to provide implementation. if you dont follow, compile error will be thrown. 
+	- correct is public abstract void ();
+	- public void method(){}; this is not abstract but it has implementation since {} is there so its a valid non abstract method. 
+	- also, **it is good convention to write public abstract methodname and not abstract public methodname. public should come before abstract.** 
+- even if there is only one abstract method in the class, the class has to be declared abstract. 
+## Abstract class
+- abstract class means partially implemented class. when a class is not completely implemented or is partially implemented and is not clear about concrete implementation, such classes should be declared abstract class. 
+- we cannot create object from abstract class. 
+- abstract class can contain 0 number of abstract methods. you can declare a concrete class as abstract if you dont want object creation of the methods in it. This can be useful if you want to create a base class that provides common functionality for subclasses but should never be instantiated on its own. eg: HttpServlet is an abstract class which doesnt have any abstract class. 
+- whenever we are extending abstract class, compulsory we should have implementation of all abstract methods in it. if there are 100 abstract methods, we have to implement each one of them in the child class compulsory... otherwise we will get compile time error. 
+- we can temporarily extend the abstract class into a child abstract class and implement only one method. this is called as abstract class chaining. if there are 100s of abstract methods in the parent abstract class and i want to implement only one abstract method, then i can create a child abstract class as: public abstract class childabs extends parentabs{ public void m1(){}; //former abstract method now having an implementation} then we can create a concrete class and extend the childabs class where we can create object of the childabs and use the abstract method earlier. 
+- we use abstract class and abstract methods for half implementations or not complete implementations. without abstract classes the code will run just fine with direct concrete methods and classes but the concrete class may forget to implement some method. for example, a car class must have airbags method and brake method implemented. this compulsion of implementation can be enforced using abstract methods and classes.
+## Method Modifiers: public and default
+- 
