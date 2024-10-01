@@ -74,7 +74,8 @@
 		- whenever JVM comes across a .class file, it checks if the .class file is loaded or not. If loaded already, the JVM will use the class file from the loaded method area. 
 		- if not the JVM sends request to load to class loader subsystem. The CL subsystem sends the request to find .class file to application class loader, the app cl delegates the task to extension cl. Extension cl will again delegate to bootstrap classloader. Bootstrap cl will search bootstrap bootstrap class path. The path is given in above points. If not in bscl, the bootstrap cl will delegate to extension cl which will search extension class path. Even if extension cl didn't find, it will ask app cl to search in application class path. This whole process of delegation is called delegation hierarchy algorithm.
 		- in delegation hierarchy algorithm, highest priority is given to bootstrap cl then extension cl then application cl.
-		- ![[Screenshot_2024-09-29-13-48-46-17_92460851df6f172a4592fca41cc2d2e6.jpg]]
+		- ![image](https://github.com/user-attachments/assets/4d6e6711-6bb0-42ed-8eba-e2fd0ca083c5)
+
 ``` 
 // CODE 1
 //java program that uses class Class object for more info.
@@ -132,5 +133,4 @@ In summary, these three parts (Class Loader, Memory Area, and Execution Engine) 
 
 ## JVM component diagram 
 
-
-![[IMG-20240927-WA0003.jpg]]
+![image](https://github.com/user-attachments/assets/46ac725a-f32d-4fd0-be4c-e4e1ccaff8fe)
