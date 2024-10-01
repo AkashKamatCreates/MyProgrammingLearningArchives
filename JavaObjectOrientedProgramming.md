@@ -72,4 +72,19 @@
 - we can temporarily extend the abstract class into a child abstract class and implement only one method. this is called as abstract class chaining. if there are 100s of abstract methods in the parent abstract class and i want to implement only one abstract method, then i can create a child abstract class as: public abstract class childabs extends parentabs{ public void m1(){}; //former abstract method now having an implementation} then we can create a concrete class and extend the childabs class where we can create object of the childabs and use the abstract method earlier. 
 - we use abstract class and abstract methods for half implementations or not complete implementations. without abstract classes the code will run just fine with direct concrete methods and classes but the concrete class may forget to implement some method. for example, a car class must have airbags method and brake method implemented. this compulsion of implementation can be enforced using abstract methods and classes.
 ## Method Modifiers: public and default
-- 
+- member here can be a variable or a method. 
+- public: if the class is default but the method is public, you cannot access the method in child class. for example: class a has public method eat. you cannot use the method due to the class not being public. 
+- if you want to access the method outside the package, the class and method both should be public. if the method is default and the class is public, you will not be able to access the method outside the package. 
+- private: if variable or method is declared as private, its accessible only to the same class. private is also called class level. 
+	- private is class level
+	- default is package level
+	- public is global level 
+- "Private methods act as temporary helper methods within a class, providing internal functionality that assists public methods, while remaining hidden from external access."
+- **it is highly recommended to keep as many variables private as possible to keep high privacy and good encapsulation.** 
+- **recommended modifier for a method is public so that as many class as possible can use the method freely** 
+## Method Modifiers: protected
+- protected methods and variables are accessible throughout the same package but outside the package only in child classes. 
+- protected = default + child classes outside package.
+- in the child class outside the package who want to use the parent class protected method, we cannot use parent reference to use the method. we cannot write A a = new A() -> a.m1(), we have to use childcl c = new childcl -> c.m1() where m1 is the protected method in the A parent class. the childcl is the child class which is extending the parent a class. 
+- public>protected>default>private
+## Interface
