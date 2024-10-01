@@ -22,4 +22,15 @@
 - having packages help in solving naming conflict: for example, there is a Date class in sql and there is a Date class in util. when i wish to use date, how will the compiler understand what i want exactly? it will see the import statement and see if i am importing java.util.Date or java.sql.Date and proceed accordingly. 
 - packages help in modularity: eg all input/output related operations in java are kept in java.io package. all database related classes are kept in java.sql package. this promotes modularity of a language. 
 - while defining our classes, it is highly recommended to make it a part of a package. in real projects, **every class and every interface should be a part of some package. its a good practice and highly recommended.**
+- **universally accepted naming convention for packages: use client domain name in reverse for packages. we use internet domain name because it is unique in nature.** 
+- in any java source file, atmost one package statement is allowed. this is because if we write 2 package statements, the compiler wont understand which package to put the .class file into. for this reason, atmost one (one or zero) package statements are allowed. if you write 2 or more package statements, compiler will give compile time error. 
+- **Compiling with `-d .` to place the `.class` file in the current working directory:**
+	- When you use `javac -d . test.java`, the dot (`.`) tells the compiler to create the directory structure based on the package name at the top of the Java file within the current working directory.
+	- If your `test.java` has a package declaration like `package com.akashkamat.company.package1;`, then the compiler will create the folder structure `com/akashkamat/company/package1` under the current working directory and place the `test.class` file inside it.
+- Compiling with `-d E:` to place the `.class` file in a different directory:
+	- If you run `javac -d E: test.java`, the compiler will create the appropriate folder structure under the `E:` directory based on the package declaration.
+	- If the package declaration is `package com.akashkamat.company.package1;`, the directory `E:\com\akashkamat\company\package1\` will be created, and the `test.class` file will be placed inside that directory.
+	- Make sure that `E:` is a valid drive, and you should also include the correct folder paths if you're specifying a location within a directory on that drive, for example, `E:\somefolder`.
+- **in a java file, if you want to include package statement, make sure its the very first line. only after that import is allowed. if you write import statements and then package, compiler will give error**
+- **good order of a java file: package statement (at most one) -> import statements (any number of statements) -> class/interface/enum(any number of statements)**
 - 
