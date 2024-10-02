@@ -158,3 +158,21 @@
 - cyclic inheritance is not supported in java. 
 - class a extends a / class a extends b which extends a. there is a cycle or a closed loop of inheritance. this is not supported in java or any other language. this is because it is just not required in real world use case. 
 - for example, if a extends a, why to extend to yourself, it would be like giving money to yourself from yourself. its unneccessary. another scenario: A extends B and B extends A. if both classes have access to each others method, why not just write both of them as a same class... this is why cyclic inheritance is flawed and not implemented in any language. 
+## Method Signature
+- this concept is important for overloading and overriding (polymorphism)
+- method signature is a unique way of identifying methods in java. 
+- naming convention of method signatures: method signature contains 
+	- name of the method
+	- followed by argument types (and the order in which arguments are listed)
+- in java, return type of a method is not part of method signature. in other languages return type can also be part of method signature. 
+- compiler will use method signature while method calls. while resolving method calls, compiler will use method signatures. 
+- for every class compiler will maintain a method table which will contain signatures of all methods in the class. 
+- within the same class, 2 methods of same signatures is not allowed. now same signature means same name and same argument. compiler will throw error. no matter if the return type of the methods are different, if the signature(name and arguments) are same, compiler will throw error.
+## Overloading Introduction
+- major concept in oops
+- 2 methods are overloading when both have same name and different argument. for example m1(int age) and m1(String name), here both the methods are totally valid since method signatures here are different in terms of arguments. these 2 methods are said to be overloaded since they have same name but different argument types.
+- in c language, method overloading concept is not available since c doesnot implement OOPs
+- for **method overloading**, you cannot have multiple methods with the same name and the same parameter type, even if the parameter names are different. The **method signatures** must be unique, which means they must differ by the number of parameters, their types, or their order. so m1(int age), m1(int height) will be invalid since both have same name and argument types even if the argument names are different. 
+- why is overloading called compile time polymorphism: method resolution means which method has to be executed. method resolution work is taken care by compiler based on reference type but not based on runtime object. this is why overloading is called compile time polymorphism or static polymorphism or early binding. 
+- here runtime object is the dummy and jvm is not responsible for resolution, compiler is responsible. 
+## Method Overloading: Case Study -1
