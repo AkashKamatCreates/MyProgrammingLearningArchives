@@ -226,3 +226,57 @@
 - In overloading, method resolution is always taken care of by compiler based on reference type. runtime object is never going to play any role. 
 - so whoever's reference is used, the compiler will give more priority to them and compiler wont care about whose runtime object is created. thats why reference class's method will be used. 
 ## Method Overriding
+- a child class can access all parent class methods. if a child class wants to use parent class method but wants some changes in the parent method implementation, it can be done with overriding (@overriding annotation). this process is called method overriding 
+- method overriding: child class changes implementation of parent class method. 
+- the child class method which is implementing the same parent class method in a different way is called overriding method. and the parent class method which is being overridden is called overridden method. 
+- method resolution: child c = new child(); c.marry() here child method(overridden marry method from parent) will be used. now parent p = new child(), p.marry(). here compiler will check if marry method is there in parent class. if there is a marry method in parent class, compiler will give green signal that everythings running smoothly or else if there is no marry method in parent, compiler will give compile time error. at runtime, jvm is always going to check what is the runtime object. here in this case when parent p = new child(), runtime object is child. now jvm will check if the child class is overriding the parent's marry method or not. if yes, jvm will give use the overriding marry method from the child class. 
+- in overriding, method resolution is taken care by jvm. This mechanism is called **dynamic method dispatch**, where the method to be executed is determined by the **runtime object type** rather than the **reference type**. this is why overriding is called runtime polymorphism or dynamic polymorphism or late binding. 
+## Method Overriding Rules Part -1
+- in overriding, method names must be same and argument types must be same. so method signatures of parent and child overriding methods must be same. 
+- return type: in method overriding return types of methods must be same until 1.4 java version. from 1.5 java version, covariant return types are also allowed. covariant means the child of the return type is allowed. for example, parent method: public object(return type) m1(){return null}, and public object(return type) m1(){return null}. now from 1.5 version java, i can override the m1 parent method as public String(return type) m1(){return null}. this is because String is child of object class in java. so you can use child return type of the parent methods return type too.  
+- to compile a java file into an older version, we use javac -source 1.4 P.java
+- if parent return type is object, child class return can be object, string, stringbuffer etc... if parent is number return type, child method can return number , Intger, Float, etc. same for if its N, child can be Float, Double, Integer, etc... but it cannot be that parent is String and child return type is Object. this is not allowed. 
+- if parent return type is double, but child return type is int, this is NOT allowed since covariant return type concept is applicable only for object types not for primitives (int, float, boolean etc...)
+## Method Overriding Rules Part -2
+- parent class has private void m1(). here child class cannot override the private method m1 since m1 wont be visible outside the parent class. 
+- so overriding is not applicable when parent method is private.
+- if parent class has private void m1() and child class has private void m1(), both will be independent and not know about each other. they are on their own and are totally valid. this is not overriding, but just nature of private methods. 
+- if parent has final method as public final void m1(), child class cannot override since overridden method is final. final means not changable. this will throw compile time error. 
+- parent method to child method overriding scenarios: final to non final - not allowed. non final to final - yes allowed. abstract to non abstract - yes allowed. non abstract to abstract - yes allowed. synchronized to non synchronized and vice versa - yes allowed. native to non native and vice versa - yes allowed. strictfp to non strictfp - yes allowed. 
+- from above rules, one conclusion is that final to non final is not allowed to be overridden since final methods are non changable. 
+## Method Overriding Rules Part -3
+- if parent class p has public void m1() and child class wants to override method m1 as protected void m1(), this is not allowed since we are reducing the scope of access modifier. 
+- in conclusion: the child's overriding method can have larger access modifier scope than parent but cannot be less than parent. for example, if parent is public but class is protected, default or private, this is not allowed. if parent is default or protected and child is public, this is perfectly valid. 
+- child class method should have same or more scope of access modifier than parent class's method. 
+- only take care that parent class method cannot be private and expected to be overridden. private methods scope ends with the class and the child class wont be able to access the private parent method ever. 
+## Method Overriding Rules Part -4
+- checked exceptions: root of java exception hierarchy is throwable. throwable has exception and error child classes. under exception many children are there like runtime exception, ioexception, ioexception etc... similarly for each children many other exception are there. under error, VMerror is there, outofmemoryerror is there, stackoverflowerror etc are there. now the thing is that runtime exceptions, its children and all error and their child classes come under unchecked exception. except these 2, everything else are checked exception. 
+- either child should throw same exception or throw the exception which is child of the exception that parent throws. this is also example of covariant return types.
+- cases:
+	- case 1: valid
+		- p: public void m1() throws exception
+		- c: public void m1()
+		- if child class throws any checked exception, compulsory parent class must throw the same checked exception that the child just threw. 
+		- for unchecked exception, no rule like the above. for unchecked exception, anywhere exception may occur no problem.
+	- case 2: invalid, compile time error
+		- p: public void m1() 
+		- c: public void m1() throws exception
+	- case 3: valid, either child should throw same exception or throw the exception which is child of the exception that parent throws. 
+		- p: public void m1() throws exception
+		- c: public void m1() throws IOException
+	- case 4: not valid, since parent should throw same or higher level exception than parent
+		- p: public void m1() throws IOexception
+		- c: public void m1() throws exception
+	- case 5: valid
+		- p: public void m1() throws IOexception
+		- c: public void m1() throws EOFException, FNFE
+	- case 6: not valid, Interrupted Exception (IE) is greater than IOexception.
+		- p: public void m1() throws IOexception
+		- c: public void m1() throws EOFException, IE
+	- case 7: valid since NullPointerExceptions are unchecked, so unchecked exceptions can be anywhere without any rules to parent or child.
+		- p: public void m1() throws IOexception
+		- c: public void m1() throws EOFException, NPE
+	- case 8: valid, here child class throws only unchecked exceptions which has no particular rules. so this case is valid. 
+		- p: public void m1() throws IOException
+		- c: public void m1() throws AE, NPE
+
