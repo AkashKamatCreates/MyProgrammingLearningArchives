@@ -175,4 +175,54 @@
 - for **method overloading**, you cannot have multiple methods with the same name and the same parameter type, even if the parameter names are different. The **method signatures** must be unique, which means they must differ by the number of parameters, their types, or their order. so m1(int age), m1(int height) will be invalid since both have same name and argument types even if the argument names are different. 
 - why is overloading called compile time polymorphism: method resolution means which method has to be executed. method resolution work is taken care by compiler based on reference type but not based on runtime object. this is why overloading is called compile time polymorphism or static polymorphism or early binding. 
 - here runtime object is the dummy and jvm is not responsible for resolution, compiler is responsible. 
-## Method Overloading: Case Study -1
+## Method Overloading: Case Study -1 (automatic promotion of argument)
+- ``` public class over {  
+	    public void m1(int a){  
+	        System.out.println("int arg");  
+	    }  
+	    public void m1(float a){  
+	        System.out.println("float arg");  
+	    }  
+	    public static void main(String[] args) {  
+	        over o = new over();  
+	        o.m1(10);  
+	        o.m1(19.7f);  
+	        o.m1('a');   // in this case, the compiler will convert the char 'a' into its int value to return int arg as output.
+	    }  
+	}```
+- when you input a char for an int method, the compiler wont give error, instead it will convert the input char into an integer value to make the method work.this automatic conversion of the arguments internally is called automatic promotion. below is the promotion sequence:
+	- byte->short->int->long->float->double
+		- eg: if the method signature has float and user put in byte as the argument while using the method, the compiler will first convert it into short, and check if the short matches with the method signature. the answer is no so compiler will convert the current short into int, then same procedure convert to long, and then finally to float. compiler checks that the float argument is what is specified in the method signature and thus is completely valid. hence no error is raised by the compiler during this whole process.
+		- if user gives a long argument to an int method, compiler will throw error since the flow of automatic promotion cannot go backwards. since int comes before long, compiler cannot change the long to int. compiler can only change from long to float and from float to double. not in reverse. thus we will get compile time error. 
+	- char->int->long->float->double
+- so summary: in overloading, if there isnt an exact match with the method argument type, compiler wont immediately throw an error, it will try to convert the given argument by user into the argument in the method signature. if the conversion is successful according to the above sequence, there will be no error. 
+- the whole process of compiler automatically converting the user argument type and try to adjust to the method signature argument is called automatic promotion. 
+## Method Overloading: Case Study -2 (child first, parent later)
+- if there are 2 methods called m1(String s){string arg} and m1(object o){object arg}, and user writes m1(null), since string is child of object class, the m1(null) will return String arg as output since child class methods always have more priority than parent class. thats why when we put m1(null), the compiler will say that null is valid for both m1(object) and m1(String) but lets return String arg as answer since it is the child class and Object is the superior parent class. 
+- in the above example, the automatic promotion is like this: 
+	- null -> string -> object 
+	- generally: user input argument -> child class first -> then the parent class if child class not matching.
+- although there is automatic promotion, if the user method arguments are matching the method signatures exactly, the exact matching method will get the highest priority no matter who is child and who is parent. the child first parent later logic is only when none of the child and parent's method signature matches the user method argument. 
+## Method Overloading: Case Study -3 (method with argument of same inheritance level)
+- there are 2 methods: m1(String s){string version} and m1(StringBuffer sb){stringbuffer version}. both methods are clearly overloaded. m1("akash") will return string. but m1(new StringBuffer("akash")), here stringbuffer will get the match since exact match will get the highest priority. hence in the new stringbuilder argument, it will return stringbuffer version.
+- case: m1(null). now here user has given null argument to m1. since null can be both String and StringBuffer. here we can say that according to the case study 2 above, the child class should get the priority to execute. but here both String class and StringBuffer class sit on the same level as both extend the Object class. between String and StringBuffer, no one is child and no one is parent. in this case, compiler will raise compile time error. this is because if priority is given to string, then stringbuffer will ask the compiler what did he do wrong to deserve not being selected. if compiler choose stringbuffer, it would be unfair to the String class and vice versa. 
+- this is why there will be compile time error thrown when 2 overloading methods with the arguments of same inheritance level are fed with null from user argument. 
+## Method Overloading: Case Study -4 (int argument to m1(int i) or m1(int... i)? new concept vs old concept)
+- 2 overloading methods m1(int i) and m1(int... i). note: here int... suggest that there can be multiple inputs to the second m1 method. 
+- m1() with empty value, second m1(int... i) will get the chance because int... can expect any number of values including 0. but the first m1(int i) method will definitely expect one int value as argument. thats why m1(int... i) will get chance when m1() no arguments are passed. 
+- now case: if user puts m1(10); then the first m1(int i) will win because the "int... i" argument was developed later than the int. int came and then much later the int... stuff came into launch in later java versions. whenever there is a method overloading fight betn old and new arguments to the compiler, the old arguments always win. therefore m1(int i) will win. 
+- now the knowledge of which concepts are old and which are new are not of importance to the programmer. only general idea is sufficient that old concepts are given priority. 
+## Method Overloading: Case Study -5 (same name, same arguments, but different order of arguments)
+- 2 overloading methods: m1(int i, float f) and m1(float f, int i). 
+- m1(10, 10.5f) here due to exact match, m1(int i, float f) will get used. 
+- m1(10.5f, 10) here due to exact match, m1(float f, int i) will get used. 
+- m1(10, 10) here compile time error: 
+	- the first method can be used by automatic promotion of second 10 to float.
+	- the second method can be used by automatic promotion of the first 10 to float. 
+	- now since both the methods are applicable, compiler cannot make a fair choice between choosing appropriate method since both of them work. so here compiler will throw compile time error indicating that it cannot choose or be biased towards or unfair towards any one method. 
+## Method Overloading: Case Study -6 (parent reference and child object. whose overloading method has more priority?)
+- regular case: if the parent class has m1(parent version) and the extended child class has m1(child version), then in the test class, i can create parent p = new parent() and i can use p.m1() which will return parent version. similarly i can create child c = new child() and i can use c.m1() which will return child version. regular stuff....
+- special case: now if i use parent reference to create child version: parent p = new child(), and use p.m1() then it will return parent version. below is the reason for this
+- In overloading, method resolution is always taken care of by compiler based on reference type. runtime object is never going to play any role. 
+- so whoever's reference is used, the compiler will give more priority to them and compiler wont care about whose runtime object is created. thats why reference class's method will be used. 
+## Method Overriding
