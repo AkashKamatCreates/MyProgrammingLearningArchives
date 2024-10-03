@@ -279,4 +279,118 @@
 	- case 8: valid, here child class throws only unchecked exceptions which has no particular rules. so this case is valid. 
 		- p: public void m1() throws IOException
 		- c: public void m1() throws AE, NPE
-
+## Method Hiding
+- static method means class method, not related to object. instance method means object related method. 
+- what if i want to override static method of parent with non static method in the child class. or if i want to override instance method of parent with child class's static method... both of these scenarios are not allowed. this will throw compile time error. it is because one is object related and other is class related. 
+	- Method Hiding: if both child class and parent class methods are static then its valid.  if parent class method is static and the child class method is also declared static, this is perfectly valid but it is not overriding, it is called *method hiding* 
+- in method hiding, method resolution is taken care by compiler based on reference type.  in the above example, if i do parent p = new child, the parent's method will be used instead of child's method given that both parent and child's methods are static. since both are static, it is not method overriding but it is method hiding. 
+- if the methods are non static then it is called overriding and the method resolution is taken care by jvm at runtime. runtime object is considered. 
+- diff betn method hiding and overriding: 
+	- MH: both parent and child class method should be static
+	- O: both parent and child class method should be non static. if either of them is static but not both then error will be thrown.
+	- MH: method resolution is taken care of by compiler based on reference type. parent p = new child() here parent method will be used
+	- O: method resolution is taken care of by jvm based on runtime object. parent p = new child() here child method will be used since the runtime object is of child even if the reference type is of parent. 
+	- MH: method hiding is compiletime or static polymorphism or early binding. 
+	- O: overriding is runtime or dynamic polymorphism or late binding. 
+## Overriding with respect to var-arg methods
+- in parent class: public void m1(int... i) and in child class: public void m1(int i). 
+	- if the arguments are different but the method name is same, it is not overriding but it is overloading. overloading happens at compile time with reference type given importance. 
+	- so parent p = new child: here parent's method will execute according to overloading rules. 
+	- only if both child and parent method are var-arg, then it becomes overriding (method resolution based on runtime object by jvm). otherwise its our regular overloading because of different argument types. 
+## Overriding with respect to variables
+- instance variable is a non static variable. 
+- *OVERRIDING CONCEPT ONLY APPLICABLE FOR METHODS, NOT VARIABLES*
+- variable resolution is always taken care of by compiler with reference type in mind.
+- defining same variable as the parent class in the child class is called variable hiding or variable shadowing. 
+- in parent class: String s = "parent" and in child class: String s = "child". 
+	- parent p = new parent() sout(s) will give parent
+	- child c = new child() sout(s) will give child
+	- parent p = new child() sout(s) will give parent //so all 3 scenario are giving parentchildparent which we will call pcp
+- rules are same whether the variable is static or instance.
+	- since this is based on reference type, it doesnot matter if one of them is static and other is instance or vice versa. below listed are the scenarios...
+	- here i is instance and s is static, p is parent and c is child: 
+		- pi and ci : pcp (here pcp means parent, then child, then parent as per the example given above)
+		- ps and cs : pcp
+		- pi and cs: pcp
+		- ps and ci: pcp 
+## Overloading vs Overriding
+- method names: 
+	- ol: method names must be same
+	- or: method names must be same
+- arugment types: 
+	- ol: argument types must be different (atleast order)
+	- or: argument types must be same (including order)
+- private/final/static methods:
+	- ol: all 3 types of methods can be overloaded
+	- or: private is not visible so not or, final cannot be changed so no or, for static method, both parent and child methods must be static, only then or.
+- return type:
+	- ol: no restrictions, return types may or maynot be same
+	- or: return types must be same from 1.4 version. from 1.5 version, covariant return types allowed (int... i)
+- throws clause:
+	- ol: no restrictions for throw clause (exceptions)
+	- or: if child class method throws any checked exception, compulsory parent class method should throw the same checked exception of parent
+- method resolution: 
+	- ol: compiler based on reference type
+	- or: jvm based on runtime object
+- other names: 
+	- ol: compile time polymorphism or static polymorphism or early binding (early because compilation happens before runtime)
+	- or: runtime polymorphism or dynamic polymorphism or late binding (since runtime happens later, after compilation)
+## Polymorphism Summary
+- polymorphism: poly means many, morphs means forms. so many forms.
+- one name but multiple forms
+- mobile phone is very good example of polymorphism. phone is camera, phone is a telephone, phone is a notepad, phone is a tv, phone is a music player, phone is a communication device, phone is a library etc... 
+- programming example: abs(int)/ abs(float) / abs(long) here overloading is there. 
+- polymorphism:
+	- static/compile time/early binding:
+		- overloading
+		- method hiding
+		- variable hiding
+	- dynamic / runtime / late binding: 
+		- overriding
+## 3 Pillars of OOPs
+- encapsulation, Inheritance, polymorphism
+- Encapsulation:
+	- main purpose of encapsulation: Security (hiding implementations and private etc...)
+	- under encapsulation:
+		- data hiding
+		- abstraction
+- Inheritance:
+	- main purpose: reusability of code (reusing parent methods etc...)
+- Polymorphism: 
+	- main purpose: flexibility of reusing method with some customization in child class
+- commonly it is known that there are 4 pillars of oops as encapsulation, inheritance, abstraction and polymorphism. abstraction is considered a pillar. in interviews, we say 4 pillars as it is commonly accepted answer. but for internal understanding, we know that there are only 3 pillars with abstraction being a part of encapsulation. 
+## 3 checks of Object Type Casting: 
+- scenario: Object o = new String("akash"); StringBuilder sb = (StringBuilder) o; valid or not? 
+	- upto compilation: since o is object type and we want to convert it into stringbuilder, it is a parent to child relationship which is valid. if there is no relation, compile time error will be thrown. 
+- syntax for type casting: A b = (c) d; here we are converting d type object to c type. and then we are assigning c type object with A type reference variable. 
+- there are going to be 3 checks, 2 done by compiler and 1 done by jvm: 
+	- compile time checking 1: the type of d and c must have some relationship. compiler will check whether the conversion of d type to c type is legal or not. checking 2: if legal, it will check if assigning of c to A type reference variable is legal or not. these are 2 conditions that compiler will check. 
+	- run time checking by jvm: in the first example, object o is assigned type of String. now since String is not derived type from StringBuilder(c), neither is string a child of c(stringbuilder), this will return a runtime error because jvm checks for runtime objects. exact exception: RuntimeException: ClassCastException
+- Object o = new String("akash"); String s = (String)o; this is completely valid since o is of string type and we are converting o to string which is the same. remember, the o should be either same level or of parent type while type casting. This is a **downcast**, meaning you're casting the reference variable `o` (which is of type `Object`) back to `String`. This works because the actual object referred to by `o` is a `String`. When typecasting in Java, the object being cast must either be of the same type or a subtype of the target class. In this case, since `o` is actually a `String`, the cast is valid.
+## Object Type Casting - Case Study
+- scenario, consider this hierarchy of classes:
+	- Object:
+		- base 1: 
+			- der 1
+			- der 2
+		- base 2:
+			- der 3
+			- der 4
+- now the cases: 
+	- base2 b = new der4(); this is valid
+	- case 1: der4 d = (der4) b; this is valid
+	- case 2: base1 b1 = (base1)b; this is not valid since no relation betn base 2 and base 1
+	- case 3: base2 b2 = (base2) b; this is valid
+	- case 4: Object o = (der3)b; not valid since internally b is der4. since der4 and der3 have no relation, this is not valid at runtime and we will get runtime exception.
+	- case 5: base2 b3 = (base1)b; since base2 and base1 are not connected, therefore not valid and will throw compiletime error according to rules in the prior topic.
+## Internal Things of Object Type Casting: 
+- c extends b and b extends a. when typecast of (b)c then here b is type reference and c is type runtime object. 
+- (a)((b)c) here total is a type but internal object is of c type. so in typecasting, reference variable can be changed but not runtime object. 
+- String s = new String("akash"); Object o = (Object)s; this is acceptable. 
+	- because of this type casting, internally there is not going to be any new object. for the same object, new reference variable will be there. thats it. in heap, same object will be there but in the stack area of jvm, new reference variable will point to the object. so only one object in this case but 2 reference variables. 
+	- we can check the above point by doing sout(s== o) which will return true since both point to the same object.
+- scenario: parent p has m1 method, child c has m2 method and child c = new child():
+	- c.m1() perfectly valid
+	- c.m2() perfectly valid
+	- ((p)c).m1() since typecasting to parent, happily it can call m1. so valid
+	- ((p)c).m2() compile time error since c is casted into parent type. parent doesnot have access to m2 method which belongs to the child. not valid. here internally, parent p = new child() is happening when we type cast it like this. so we just cannot call child's m2 method like p.m2() so this is not valid. 
