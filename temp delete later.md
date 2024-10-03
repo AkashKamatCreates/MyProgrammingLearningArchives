@@ -1,7 +1,7 @@
 ## Need of Constructors
 - constructors are part of oops.
 - constructors are defined to perform initialization of an object. 
-```//assume i create 500 such more student objects from s3 to s500.  
+```java //assume i create 500 such more student objects from s3 to s500.  
 /**      -------INTRODUCTION TO CONSTRUCTORS NOTES-------  
  * - for every student compulsory a separate copy of name and roll no will be created * - for all 500 students, 500 roll nos and 500 names will be created * - we are just creating student object in the above lines but we are not assigning any name *   or roll numbers to those student objects. * - when we dont provide any name or roll for an object, jvm will create the variables and assign default values for them. * - so here for all 500 student objects, all students have same name as null and all students have same roll no as 0 * - this same thing for all is meaningless. * - we should perform initialization for the object, otherwise the object is not in a position to provide service properly * - to initialize the object, some special character is required. that special character is CONSTRUCTOR :) * - CONSTRUCTOR concept is specially define to initialize an object. * - what is the main purpose of constructor? it is not to create object. main purpose is to perform initialization, not to *   create object. * - new keyword is responsible to create object, not constructors. * */  
 public class student {  
