@@ -1,0 +1,6 @@
+- java architecture - jvm, jre jdk etc: read java architecture note
+- java OOPs: read javaobjectorientedprogramming note
+- https://www.youtube.com/watch?v=Dxpdo9BUGss&list=PLYPjPMiw3_YsVockWfuuhoP86YPDUXp4f
+- https://www.geeksforgeeks.org/java-interview-questions/
+- https://www.javatpoint.com/corejava-interview-questions
+- https://www.interviewbit.com/java-interview-questions/
