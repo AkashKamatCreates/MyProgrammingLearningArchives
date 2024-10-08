@@ -1,0 +1,33 @@
+# Introduction: 
+- core java is used to develop standalone apps. such apps are of 2 types: gui based and cli based. 
+- adv java is used if we want to build applications which work with the internet. for example any client-server application (non standalone app)
+- 3 types of java release: 
+	- java standard edition :  Java SE
+	- java enterprise edition: Java EE
+	- java micro edition: Java ME
+- in advanced java, 3 technologies are important: 
+	- jdbc (java database connection) - part of JSE
+	- servlet - part of JEE 
+	- jsp (java server pages) - part of JEE
+- high level (unofficial) there may be 3 types of applications:
+	- standalone apps
+	- web apps
+	- enterprise apps
+- !! jsp should never contain a single line of java logic code. it is very bad practice to include logic code in jsp. 
+- jsp is responsibe only for displaying something to the enduser
+- processing and business logic is done in servlet. 
+- the connection betn db and servlet is done by jdbc. 
+## need of web servers
+- to run web application, a special software called as web server is required. eg: tomcat server used commonly to run web applicatoins. 
+- webserver tomcat components:
+	- web container: responsible to manage and execute servlets and jsp 
+		- servlet engine/container: responsible to manage and execute servlets. servlet engine is also known as CATALINA 
+		- jsp engine/container: responsible to manage and execute jsp. jsp engine is also known as JASPER.
+# JDBC
+- steps to implement jdbc:
+	- 1: load and register driver
+	- 2: extablish connection betn java application and database
+	- 3: create statement object
+	- 4: send and execute sql query
+	- 5: process results from resultset
+	- 6: close connection
