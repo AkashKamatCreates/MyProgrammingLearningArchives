@@ -6,28 +6,94 @@
 	- java enterprise edition: Java EE
 	- java micro edition: Java ME
 - in advanced java, 3 technologies are important: 
-	- jdbc (java database connection) - part of JSE
+	- JDBC (java database connection) - part of JSE
 	- servlet - part of JEE 
-	- jsp (java server pages) - part of JEE
+	- JSP (java server pages) - part of JEE
 - high level (unofficial) there may be 3 types of applications:
 	- standalone apps
 	- web apps
 	- enterprise apps
-- !! jsp should never contain a single line of java logic code. it is very bad practice to include logic code in jsp. 
-- jsp is responsibe only for displaying something to the enduser
+- !! JSP should never contain a single line of java logic code. it is very bad practice to include logic code in JSP. 
+- JSP is responsibe only for displaying something to the enduser
 - processing and business logic is done in servlet. 
-- the connection betn db and servlet is done by jdbc. 
+- the connection between db and servlet is done by JDBC. 
 ## need of web servers
 - to run web application, a special software called as web server is required. eg: tomcat server used commonly to run web applicatoins. 
 - webserver tomcat components:
-	- web container: responsible to manage and execute servlets and jsp 
+	- web container: responsible to manage and execute servlets and JSP 
 		- servlet engine/container: responsible to manage and execute servlets. servlet engine is also known as CATALINA 
-		- jsp engine/container: responsible to manage and execute jsp. jsp engine is also known as JASPER.
+		- JSP engine/container: responsible to manage and execute JSP. JSP engine is also known as JASPER.
 # JDBC
-- steps to implement jdbc:
+- steps to implement JDBC:
 	- 1: load and register driver
-	- 2: extablish connection betn java application and database
+	- 2: extablish connection between java application and database
 	- 3: create statement object
 	- 4: send and execute sql query
 	- 5: process results from resultset
 	- 6: close connection
+- JDBC is a technology which is required to communicate between java application to database. 
+- JDBC is a part of j2se or java standard edition
+- java vendor is oracle/sun microsystem: the vendor defined JDBC standard. the standards are to be followed by the database vendors (mysql, oracledb, postgres etc...) the database vendor implementation is called driver software provided by various database vendors.
+- JDBC features: 
+	- 1. it is a standard API. it means no matter what db you use, the JDBC procedures and steps remains the same. it is database independent api
+	- most of the driver softwares / drivers are developed in java. it means this driver can run on any platform. 
+	- crud operations are performed very easily by JDBC.
+	- industry support to JDBC is excellent. several db vendors created their drivers to accomodate work with JDBC. 
+- ODBC(open data base connectivity) concept can be applied to any language, any database. microsoft people provided ODBC. BUT all the ODBC features are only for windows machines. 
+- some people tried to develop ODBC drivers for linux but they failed. 
+- JDBC is similar. JDBC is applicable for any database, any platform, but only in java. lol
+- due to JDBC, we can develop applicatoin in java and use any db of our choice for storage. the storage will communicate with the application using their db driver. 
+- so java is database independent but driver is database dependent. 
+- JDBC api defines several classes and interfaces which can be used for database communication. 
+- java.sql, javax.sql are 2 package for database communication. 
+### types of JDBC drivers: 
+- there are 1000s of drivers based on database. but based on the funcionality or architecture of drivers, there are 4 types: 
+	- type 1 driver: also known as JDBC-ODBC bridge driver / bridge driver
+		- this driver internally uses ODBC. 
+		- flow of type 1 driver: since ODBC driver is used here, ODBC driver connects to the database. but java app cannot talk to the ODBC driver directly. this is where type one driver comes into  play where type 1 driver connects java app to ODBC driver which then continues to ODBC talking to database. 
+		- so its like a bridge between ODBC and java app. thats why its called bridge driver. 
+		- now why do we need ODBC in the first place: some apps are so established with ODBC from earlier that they may not wish to change or provide a jdvc driver of their own. thats why java app uses type one driver as a bridge to use existing ODBC driver so that database access is good.
+		- this driver is automatically installed with jdk. 
+		- this driver (type 1 driver) is never in direct connection to database. so we can say type 1 is database independent driver. 
+		- cons of type 1 driver: it is slow since there is a conversion from JDBC to ODBC so that conversion takes computation resources. this is also called snail driver and is the slowest driver. 
+		- biggest con of type 1 driver: only applicable for windows machine since ODBC is a windows concept made by microsoft. so linux and unix cannot use type 1 driver at all and ODBC at all. so this is platform dependent driver only applicable for windows. 
+		- the type 1 driver was availabe inbuilt java till version 1.7. from 1.8 release version, we have to separately install type 1 drivers separately. 
+	- type 2 driver: native API - partly java driver / native driver
+		- type 2 driver is very similar to type 1 driver. except ODBC drivers are replaced with vendor provided database specific native libraries. and those db specific libs can be understood by database. 
+		- this driver is also known as native driver / partly java driver.
+		- native means non java drivers. mostly c or cpp. 
+		- pros of this driver: speed driver (fast), no ODBC. it is platform independent (not only restricted for windows, we can use it on linux and unix too).
+		- cons: database dependent (since it uses native libraries which are given by database vendors). platform dependent in the sense that the native libs are written in c or cpp. so we know that c or cpp is not platform independent in the sense that they need compmilation on each machine separately to run. so here for iwndows, different driver. for linux different driver, for unix different driver. this is very bad. 
+		- another con is that there is no garuntee that database vendors will provide native libraries. 
+		- the java app, the type 2 driver and the native libraries are all present on the client machine.
+	- type 3 driver: All java net protocol driver / network protocol driver / middleware driver
+		- type 3 driver is type 2 driver but in place of native libraries, there is a middleware service. 
+		- middleware is a databse driver implementation which makes use of middle tier between the calling program and the db. 
+		- the middle tier converts JDBC calls directly or indirectly into a vendor-specific database protocol. 
+		- this driver is platform independent. platform related differences are taken care of by the middleware. 
+		- when we send JDBC api calls to the middle tier server that translates the calls into the db specific network protocol, the translated calls are then sent to the particular dbms.
+		- pros: since the communication between client and the middleware server is database independent, there is no need for the db vendor library on the client side (unlike type 2 driver)
+			- middleware server can provide typical middleware services like caching, load balancing, logging and auditing.
+			- a single driver can handle any database provided the middleware supports it. 
+		- cons: requires database specific coding to be done in the middle tier. the middleware layer added may result in additional latency but is typically overcome by using better middleware services. 
+	- type 4 driver: pure java driver / native protocol driver / thin driver
+		- this driver directly connects to the database using native protocol provided by database vendor. 
+		- this driver is also known as pure java driver since completely developed in java. 
+		- it is also known as thin driver since it is light weighted and it directly communicates with the database. 
+		- here, client machine has app and driver. the server side has database. 
+		- it is platform independent driver since made in java. 
+		- only one conversion is there in type 4 therefore it is the fastest driver. 
+		- no need for ODBC driver, native libraries, middleware server. 
+		- cons: 
+			- this is database dependent driver. 
+		- type 4 driver is the most commonly used driver right now when it comes to JDBC
+- how to choose type of driver for your application?
+	- type 1 and 2 are not recommended. type 3 and 4 are recommended. 
+	- if we are using only one database eg only oracle or only mysql throughout the whole application, it is highly recommended to use type 4 driver. eg: standalone apps, small scale web apps. 
+	- for scenarios that we use different database for a single application. for example, customer data is stored in mysql, billing information is stored in sybase database. in this scenario it is highly recommended to use type 3 driver. this is because type 3 driver is database independent. for example, large scale web applications and enterprise applications. 
+	- if type 3 or 4 is not available, then use type 2 driver. in the worst condition that type 2 is also not available, use type 1 although avoid type 1 and 2 at all cost. 
+### Thin driver vs Thick driver
+- with respect to JDBC drivers: type 1, 2, 3 are called thick drivers
+- type 4 is called thin driver. 
+- if the driver requires some extra component to talk to the database, then the driver is called thick driver. 
+- and if the driver directly talks to the database, it is called thin driver. 
