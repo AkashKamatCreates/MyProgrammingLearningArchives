@@ -1,5 +1,4 @@
-class dp{
-  fibonacci code recursive: 
+fibonacci code recursive: 
 
 public int fib(int x){
     if(x==0) return 0; 
@@ -111,19 +110,148 @@ public int frogJump(int n, int[] heights, int[] dp){
 }
 
 //bottom up: -------------------------------------------------------------------------
-public int frogJump(int n, int[] heights, int[] dp){
-    int dp[0] = heights[0];
-    int second= dp[1];
-    int ans = Integer.MAX_VALUE;
+public int frogJump(int[] heights){
+    int n = heights.length;
+    int[] dp = new int[n];
+    
+    //instantiating height diff for getting to first from first. 
+    dp[0]=0;
+    
+    for(int i=1; i<=n; i++){
+    	int jumpOne = dp[i-1] + Math.abs(heights[i]-heights[i-1]);
+    	
+    	int jumpTwo = Integer.MAX_VALUE;
+        if (i > 1) {
+            jumpTwo = dp[i - 2] + Math.abs(heights[i] - heights[i - 2]);
+        }
+    	dp[i] = Math.min(jumpOne, jumpTwo);
+    }
+    return dp[n];
+}
 
-    for(int i=0; i<=n; i++){
-        ans =dp[n]+ Math.min(first, second);
-        first = second;
-        second = ans;
+//top down memoisation:
+public int frogJumpk(int[] heights, int[] dp, int n){
+	if(n==0) return 0;
+	
+	if(dp[n]!=-1) return dp[n];
+	int result = Integer.MIN_VALUE;
+	
+	for(int i=1; i<=n; i++){
+		int jump = frogJumpk(heights, dp, n-i)+Math.abs(heights[n]-heights[n-i]);
+		result = Math.min(result, jump);
+	}
+	return dp[n] = result;
+}
+
+//bottom up solution:
+public int frogJumpk(int[] height){
+	int n = height.length;
+	int[] dp = new int[n];
+	
+	dp[0] = 0;
+	
+	int min = Integer.MAX_VALUE;
+	
+	for (int i = 1; i < n; i++) {
+        	int min = Integer.MAX_VALUE;
+        
+        	// try jumping from all previous stones
+        	for (int j = 1; j <= i; j++) {
+        		int jumpCost = dp[i - j] + Math.abs(heights[i] - heights[i - j]);
+            		min = Math.min(min, jumpCost);
+        	}
+
+        	dp[i] = min;
+    	}
+    	
+    	return dp[n-1];
+	
+}
+
+//house robber question
+//top down
+public class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        if (n == 1) return nums[0];
+
+        int[] dp1 = new int[n];
+        int[] dp2 = new int[n];
+        Arrays.fill(dp1, -1);
+        Arrays.fill(dp2, -1);
+
+        // Case 1: Rob from house 0 to n-2
+        int rob1 = robHelper(nums, 0, n - 2, dp1);
+        // Case 2: Rob from house 1 to n-1
+        int rob2 = robHelper(nums, 1, n - 1, dp2);
+
+        return Math.max(rob1, rob2);
     }
 
-    return second;
-    
+    private int robHelper(int[] nums, int start, int end, int[] dp) {
+        if (start > end) return 0;
+        if (dp[start] != -1) return dp[start];
+
+        int robCurrent = nums[start] + robHelper(nums, start + 2, end, dp);
+        int skipCurrent = robHelper(nums, start + 1, end, dp);
+
+        dp[start] = Math.max(robCurrent, skipCurrent);
+        return dp[start];
+    }
 }
 
+//bottom up solution:
+public class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        if (n == 1) return nums[0];
+
+        // Case 1: rob houses from 0 to n - 2
+        int rob1 = robLinear(nums, 0, n - 2);
+        // Case 2: rob houses from 1 to n - 1
+        int rob2 = robLinear(nums, 1, n - 1);
+
+        return Math.max(rob1, rob2);
+    }
+
+    private int robLinear(int[] nums, int start, int end) {
+        int prev2 = 0; // dp[i - 2]
+        int prev1 = 0; // dp[i - 1]
+
+        for (int i = start; i <= end; i++) {
+            int take = nums[i] + prev2;
+            int skip = prev1;
+
+            int curr = Math.max(take, skip);
+            prev2 = prev1;
+            prev1 = curr;
+        }
+
+        return prev1;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
