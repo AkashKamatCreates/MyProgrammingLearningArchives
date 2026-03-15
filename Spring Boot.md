@@ -336,3 +336,5 @@ new instance for every websocket connection.
 now 2 users with their own websocket will get their own bean... just like session or request scope. 
 
 When to use: real time apps like chat, live notification, live dashboards.
+
+
