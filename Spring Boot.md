@@ -253,3 +253,86 @@ setter injection is still better than field injection since with field injection
 - Setter injection: when dependency is optional and class works fine without it. 
 - field injection: building rapid prototype or building a throwaway project(hackathon - no body is writing unit tests in a fast paced env of a hackathon, its all about achieveing the goal anyhow - ends justifying the means)
 - Iterating again, **FIELD INJECTION IS NOT TO BE USED IN PRODUCTION CODE!!!!!**
+
+# Bean Scopes
+there are 6 types of bean scopes: 
+1. Singleton - Default
+2. Prototype - New everytime 
+3. Request - One per http request
+4. Session - one per user session 
+5. Application - one per servletcontext
+6. websocket - one per websocket session
+
+### Singleton: 
+once instance for the entire application. forever. 
+on top of class, we can write @scope like: 
+@Service
+@Scope("singleton")//not required, by default spring will assume singleton scope for a bean 
+public class etcetc...
+
+here, App starts -> spring creates One bean of the class -> every class that needs the bean will get teh same object(bean). -> app shuts down, object is destroyed 
+
+When to use: Stateless services. which is most of our services.
+
+### Prototype:
+new instance every single time its requested... 
+@Scope("prototype")
+if 100 classes call it, 100 different beans of that class will be served to the dependent classes. 
+IMP: spring creates it but doesnt destroy it. you manage the cleanup by calling @Predestroy
+When to use: stateful objects where each caller needs their own fresh instance 
+
+### Request: 
+new instance for every HTTP request. bean dies after request ends. 
+@Scope("request")
+a bit more about what is the meaning of "bean dies after request ends"
+
+user hits a post api on postman 
+request starts (bean created here)
+spring processes it
+hits controller
+hits service
+hits repo
+hits database
+builds response 
+resopnse sent back to user (bean destroyed here)
+
+//above flow is to be read line by line...
+
+now what if 10 dependent classes hit the api with the same request dependency... 
+if 10 api hits are made, that means 10 different http requests, that means 10 different independent beans created... so they are kinda like prototype bean except they die when request ends. 
+
+When to use: storing data specific to one HTTP request like request timing, user context, request metadata etc... 
+
+### Session:
+new instance for every user session. dies when session ends. 
+@Scope("session")
+for example: class ShoppingCart is session scoped, then 
+User A: will get his own shopping cart bean 
+User B: will get her own shopping cart bean
+
+both shopping cart beans are independent of each other which makes complete sense since shopping cart is a personal object of sort in an ecommerce app. 
+
+When to use: use for above examples, use when user specific data that needs to persist across multiple request like user preference, login state etc... 
+
+### Application:
+One instance for the entire web applicaiton, similar to singleton but tied to servletcontext lifecycle. 
+@Scope("application")
+diff betn singleton and applicaiton scope: 
+singleton: one instance per spring applicationcontext
+application: one instance per servletContext (web container)
+now lemme expaqnd on what applicationcontext and servletcontext really is... 
+imagine a microservice architecture with 10 different apps. this means 10 different applicationcontext... think of applicaiotncontext as a singular app. every springboot app has one aplicationcontext. its spring's internal container that holds all beans. 2 applicationcontext never talk to each other and remain isolated. 
+we can use application scope and singleton scope in an interchanging way since both act as the same on applicationcontext level. but now imagine a monolith application where multiple springboot applicaitons use the same tomcat... now this is where application scope shines out.. 
+the servletcontext concept is where a monolith deployed on a shared tomcat happens. this is generally for legacy enterprise apps. 
+
+when to use: when we are working on a monolith deployed on a shared tomcat and we want systemwide configuration accross all the shared monolith apps. here singleton wont work since 2 spring apps wont talk to each other. use whenever you wanna set globalconfig. 
+
+(dont get confused, in microservice architecture, each of the app has its own tomcat, so applicatoin or singleton act as the same there... )
+
+### WebSocket
+new instance for every websocket connection. 
+@Scope("websocket")
+
+now 2 users with their own websocket will get their own bean... just like session or request scope. 
+
+When to use: real time apps like chat, live notification, live dashboards.
