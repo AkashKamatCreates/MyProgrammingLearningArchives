@@ -337,4 +337,334 @@ now 2 users with their own websocket will get their own bean... just like sessio
 
 When to use: real time apps like chat, live notification, live dashboards.
 
+-----
 
+**Question: if two or more implementation of our Order class, lets say onlineOrder and offlineOrder and we dependency inject the Order order, then which one will spring pick?:** it will throw error and not start the application
+but the @qualifier is not dynamic, they are hardcoded... that for online order and offline order, use their particular implementations... so whats the solution?
+1.  using @Value...
+```java 
+public interface Order {
+    String processOrder(String item);
+}
+@Component("onlineOrder")
+public class OnlineOrder implements Order {
+    public String processOrder(String item) {
+        return "Processing ONLINE order for: " + item;
+    }
+}
+
+@Component("offlineOrder")
+public class OfflineOrder implements Order {
+    public String processOrder(String item) {
+        return "Processing OFFLINE order for: " + item;
+    }
+}
+//change below in application.properties:
+# Change this value to switch which bean gets used
+order.type=online
+// below is config class for order: 
+@Configuration
+public class OrderConfig {
+
+    // Reads order.type from application.properties
+    @Value("${order.type}")
+    private String orderType;
+
+    @Bean
+    public Order order(
+        @Qualifier("onlineOrder") Order onlineOrder,
+        @Qualifier("offlineOrder") Order offlineOrder
+    ) {
+        // Dynamically decide which bean to return
+        if (orderType.equalsIgnoreCase("online")) {
+            return onlineOrder;   // returns OnlineOrder bean ✅
+        } else {
+            return offlineOrder;  // returns OfflineOrder bean ✅
+        }
+    }
+}
+
+
+```
+now what happens is that:
+```java
+@Service
+public class OrderServiceImpl {
+
+    private final Order order;
+
+    // Gets whichever bean was decided in OrderConfig
+    public OrderServiceImpl(Order order) {
+        this.order = order;
+    }
+
+    public String placeOrder(String item) {
+        return order.processOrder(item);   
+    }
+}
+```
+
+---
+
+## What Happens At Runtime
+```
+application.properties → order.type=online
+        ↓
+OrderConfig reads "online"
+        ↓
+Returns OnlineOrder bean
+        ↓
+OrderServiceImpl gets OnlineOrder injected
+        ↓
+placeOrder("iPhone") → "Processing ONLINE order for: iPhone"
+
+
+Change to order.type=offline
+        ↓
+OrderConfig reads "offline"
+        ↓
+Returns OfflineOrder bean
+        ↓
+OrderServiceImpl gets OfflineOrder injected
+        ↓
+placeOrder("iPhone") → "Processing OFFLINE order for: iPhone"
+```
+
+### @ConditionalOnProperty:
+bean is created on a condition...
+its similar to @value.
+diff betn conditionalonproperty and value: value = inject property values, cop = Should we build this object at all?
+
+we can apply conditionalonproperty inthe same order code:
+Instead of manually checking the value yourself — you tell Spring:
+
+> _"Only create this bean IF this property has this value."_
+
+```java
+// Only created if order.type=online
+@Component
+@ConditionalOnProperty(name = "order.type", havingValue = "online")
+public class OnlineOrder implements Order {
+    public String processOrder(String item) {
+        return "Processing ONLINE order for: " + item;
+    }
+}
+
+// Only created if order.type=offline
+@Component
+@ConditionalOnProperty(name = "order.type", havingValue = "offline")
+public class OfflineOrder implements Order {
+    public String processOrder(String item) {
+        return "Processing OFFLINE order for: " + item;
+    }
+}
+
+// No if/else needed anywhere — Spring handles it
+@Service
+public class OrderServiceImpl {
+
+    private final Order order;
+
+    public OrderServiceImpl(Order order) {
+        this.order = order;   // gets whichever one was created ✅
+    }
+
+    public String placeOrder(String item) {
+        return order.processOrder(item);
+    }
+}
+
+```
+
+No `@Configuration` class. No if/else. No `@Value`. Just annotations.
+
+```java
+// If order.type is missing from properties entirely
+// normally Spring would crash — no bean found
+
+// matchIfMissing = true means:
+// "if property doesn't exist, create this bean as default"
+@Component
+@ConditionalOnProperty(
+    name = "order.type",
+    havingValue = "online",
+    matchIfMissing = true    // ← OnlineOrder is default if property missing
+)
+public class OnlineOrder implements Order {
+    public String processOrder(String item) {
+        return "Processing ONLINE order for: " + item;
+    }
+}
+```
+`@ConditionalOnProperty` is a cleaner version of `@Value` + if/else — instead of manually checking property values in code, you put the condition directly on the bean and Spring decides whether to create it or not.
+
+# @Profile
+@profile is used to specify what env is the application targeted to... for example dev, test, prod
+by using @profile, we tell spring to create a bean only when the particular profile is set.
+
+
+what does profiling mean? profile means what env do we intend the application to be as.
+from the .properties file, we can define env specific variables and values for the app to take.
+
+for example:
+for dev env, we use application-dev.properties, for test:application-test.properties and for prod: application-prod.properties
+
+if all these above are present and a particular usage is not specified, then by default, spring will use the application.properties value.
+inside application.properties, we can specify what env we want by adding:spring.profile.active=dev
+
+for more info, checkout on llms.
+
+
+# AOP (Aspect Oriented Programming)
+Think of it this way: your actual business logic (like saving a user) shouldn't be cluttered with logging, security checks, or transaction handling. AOP lets you **separate those cross-cutting concerns** and plug them in automatically.
+### What is AOP?
+AOP lets you separate **cross-cutting concerns** (logging, security, transactions)
+from your actual business logic. Instead of repeating boilerplate in every method,
+you write it once and declare where it should apply.
+
+---
+
+### Core Components
+
+#### 1. Aspect
+The **class** that contains your cross-cutting logic.
+Think of it as: *"the module responsible for logging"* or *"the module responsible for security"*.
+```java
+@Aspect
+@Component
+public class LoggingAspect { ... }
+```
+
+---
+
+#### 2. Advice
+The **actual code / method** that runs. It's *what* happens.
+There are 5 types:
+
+| Type | When it runs |
+|---|---|
+| `@Before` | Before the target method executes |
+| `@After` | After the method (always, even if exception) |
+| `@AfterReturning` | After method returns successfully |
+| `@AfterThrowing` | Only if method throws an exception |
+| `@Around` | Wraps the entire method — you control execution |
+
+---
+
+#### 3. Pointcut
+An **expression** that defines *where* the advice applies (which methods to intercept).
+```java
+// applies to all methods in service package
+"execution(* com.example.service.*.*(..))"
+
+// applies to a specific method
+"execution(* com.example.service.UserService.saveUser(..))"
+```
+
+Pointcut expression breakdown:
+```
+execution( * com.example.service.*.*(..))
+            ↑        ↑           ↑  ↑
+         return   package     class  any args
+          type    path       .method
+```
+
+---
+
+#### 4. Join Point
+A **specific moment** during execution where advice *can* be applied
+(e.g. a method being called). Spring AOP only supports method-level join points.
+```java
+public void logBefore(JoinPoint joinPoint) {
+    joinPoint.getSignature().getName(); // gives you the method name
+    joinPoint.getArgs();                // gives you the arguments
+}
+```
+
+---
+
+#### 5. Weaving
+The **process** of applying aspects to the target code.
+Spring does this at runtime using **proxy objects** — when you inject a bean,
+Spring wraps it in a proxy that intercepts calls and runs the advice.
+
+Your code → Proxy (runs advice) → Real Bean method
+
+> This is why AOP only works on Spring-managed beans.
+> Calling `new UserService()` directly bypasses the proxy and AOP won't trigger.
+
+---
+
+### Code Example – @Before and @After
+
+#### Setup (add dependency if not already present)
+```xml
+<!-- pom.xml -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-aop</artifactId>
+</dependency>
+```
+
+---
+
+#### Service class (business logic – stays clean)
+```java
+@Service
+public class UserService {
+
+    public void saveUser(String username) {
+        System.out.println("Saving user: " + username);
+    }
+
+    public String getUser(String username) {
+        System.out.println("Fetching user: " + username);
+        return username;
+    }
+}
+```
+
+---
+
+#### Aspect class with @Before and @After
+```java
+@Aspect
+@Component
+public class LoggingAspect {
+
+    // Runs BEFORE any method in UserService
+    @Before("execution(* com.example.service.UserService.*(..))")
+    public void logBefore(JoinPoint joinPoint) {
+        String methodName = joinPoint.getSignature().getName();
+        Object[] args = joinPoint.getArgs();
+        System.out.println("[BEFORE] Method called: " + methodName);
+        System.out.println("[BEFORE] With args: " + Arrays.toString(args));
+    }
+
+    // Runs AFTER any method in UserService (always, even on exception)
+    @After("execution(* com.example.service.UserService.*(..))")
+    public void logAfter(JoinPoint joinPoint) {
+        String methodName = joinPoint.getSignature().getName();
+        System.out.println("[AFTER] Method finished: " + methodName);
+    }
+}
+```
+
+---
+
+#### Output when saveUser("ak") is called
+```
+[BEFORE] Method called: saveUser
+[BEFORE] With args: [ak]
+Saving user: ak
+[AFTER] Method finished: saveUser
+```
+
+
+### Quick Recap
+
+Aspect     → the class holding cross-cutting logic
+Advice     → the method that runs (@Before, @After, etc.)
+Pointcut   → the expression defining WHICH methods to intercept
+Join Point → the actual moment of interception (method call)
+Weaving    → Spring wiring it all together via proxy
