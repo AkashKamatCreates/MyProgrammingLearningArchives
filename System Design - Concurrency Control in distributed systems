@@ -1,0 +1,42 @@
+Problem statement: 
+ticket booking system like bookmyshow where one seat lets say d5 is showing empty. 
+
+now three users, a, b, c try to book the same seat at the exact same time... 
+so when the 3 users book it, it will show as booked. for one seat... 
+
+**one possible solution: synchronized**
+synchronized will allow only one user int eh critical section... thus only one seat will be booked
+
+**The core idea** is that every Java object has a hidden "monitor lock" baked in by the JVM. When you write `synchronized` on a method, you're telling the JVM: "before any thread runs this code, it must acquire that lock."
+
+**What happens internally:**
+
+1. **Thread A arrives first** (or wins a JVM-level race to the lock) — it acquires the monitor and enters the method.
+2. **Threads B and C get blocked** — the JVM puts them in a _monitor wait queue_, where they consume zero CPU. They don't spin-loop; they just sleep.
+3. **A runs exclusively** — reads seat D5 as EMPTY, marks it BOOKED, writes to DB. No one can interfere.
+4. **A exits** — the JVM _automatically_ releases the lock when the method returns (even on exceptions, it releases). One waiting thread gets notified.
+5. **B enters, sees BOOKED, returns error** — same for C.
+
+**Why this works** — the key guarantee `synchronized` gives you is _atomicity_ from the other threads' perspective. B and C never see a half-written state. Either the seat is EMPTY (A hasn't started yet) or it's BOOKED (A finished). There's no in-between.
+
+follow up to synchronize mechanism question: what happens if two threads try to access the critical section at the exact same time??
+
+**Order is nondeterministic. Outcome is deterministic.**
+
+When B and C both wake up and race for the lock, the JVM doesn't arbitrate — it just lets the CPU's hardware atomic instruction (`CAS` — compare-and-swap) settle it. At the nanosecond level, one thread's CAS instruction lands a clock cycle earlier, wins the lock word in the object header, and the other fails and re-parks. A tie at hardware level is physically impossible — only one write can commit to a memory address in a single CPU cycle.
+
+So from your application's perspective, there are two outcomes:
+
+- B wins → B enters, reads BOOKED, returns error → C then enters, reads BOOKED, returns error
+- C wins → C enters, reads BOOKED, returns error → B then enters, reads BOOKED, returns error
+
+Both outcomes are exactly the same from a correctness standpoint. This is why `synchronized` is powerful — it shifts the question from "what order do threads run?" to "does the correctness of my logic depend on order?". If your logic is right, it doesn't matter. Only one booking ever happens.
+
+One nuance worth knowing: the JVM spec deliberately leaves the scheduling of waiting threads unspecified. It could be FIFO, it could be priority-based, it could be random — it depends on the OS thread scheduler and the JVM implementation
+________________________________________________
+but what about distributed systems?? what if user a comes from one microservice and b comes from a different microservice??
+
+in distributed system, 2 types of locks can help in concurrency problem:
+
+1. optimistic concurrency control (locking)
+2. pessimistic concurrency control (locking)
